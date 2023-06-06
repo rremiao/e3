@@ -2,6 +2,7 @@ package com.rremiao.security.e3.steps;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,9 @@ public class StepOne {
 
     @Autowired
     private Sha256 sha256;
+
+    @Autowired
+    private StepTwo stepTwo;
 
     public void run () throws NoSuchAlgorithmException {
         ValueObject valueObject = new ValueObject();
@@ -37,15 +41,21 @@ public class StepOne {
 
         BigInteger bigA = gValue.modPow(littleA, pValue);
 
-        BigInteger bigB = new BigInteger("07DC8CE070605533BF0ABB3FA4C3961174F93286A202755BA8AA6182AC85F4A15F86D1814103228" + 
-            "3BBB04999C6164D1BA98F0946B3C0053CCAFC0E9AEF04FAD3C36DD895DB8725B4696432C1C84DAD36050CC49CBBDD37C7498CCD1F2F82" + 
-            "3E9D2E78C628D899322C9991DB1601C07B8E282A443D75EF6383174519889B17D8E6", 16);
+        BigInteger bigB = new BigInteger("00842180795CFF4B16A2BD3DF9DC9EE2A1AC100A092F2EBDFEF45BB75D65F7CC1B13CC3974F52" +
+            "CAD40D0ADFCDA3F197779132E4F1D240443511DF592D8A64566DD62EA116B38139D5BEC8967D4C952E1E4EC9A83A94DB39C39646C7" +
+            "74FDDA41BF73AAB6BFDEEA36990399DC107D59D479567C1538D5FC4CC52ADDFAFAFFED0C208", 16);
+
+        String msgProfessor = "41A3F6C2FDF2F8887F0F8F071B4CE3EF3527B70FF97E1CD27E150ECE2B16FCAEA4C6C0CA6D6C10007D8C8DD" + 
+            "8B7C7509EFDB92AC7B2964E0BE2CDE875432C19DC1E2B8F865EA41152E7E7B711CA348F165EFA9C9988485F3690A64EF3B1F0AC76" + 
+            "B1B261A64A49B73C3DBBCDBE7289B3CD";
 
         BigInteger bigV =  bigB.modPow(littleA, pValue);
 
         byte[] bigS = sha256.hashIt(bigV.toByteArray());
 
-        String key = hexUtil.hexToString(bigS);
+        byte[] keyByte = Arrays.copyOfRange(bigS, 0, 16);
+
+        String key = hexUtil.hexToString(keyByte);
 
         valueObject.withPValue(pValue)
                    .withGValue(gValue)
@@ -55,6 +65,9 @@ public class StepOne {
                    .withKey(key);
 
         
+        printer(valueObject); 
+        
+        stepTwo.readMessage(key, msgProfessor);
     }   
     
     public void printer(ValueObject value) {
