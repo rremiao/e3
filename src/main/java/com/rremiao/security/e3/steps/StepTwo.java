@@ -1,5 +1,6 @@
 package com.rremiao.security.e3.steps;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -19,8 +20,8 @@ public class StepTwo {
     
     public void readMessage(String key, String message) {
         try {
-            String decryptedMessage = decrypt(message, key);
-            System.out.println(decryptedMessage);
+            String decryptedMessage = new String(decrypt(message, key).getBytes(), StandardCharsets.UTF_8);
+            System.out.println("Mensagem Professor: " + decryptedMessage);
             System.out.println();
             String reversedMessage = new StringBuilder(decryptedMessage).reverse().toString();
             System.out.println(encrypt(reversedMessage, key));
@@ -57,7 +58,6 @@ public class StepTwo {
         cipher.init(Cipher.DECRYPT_MODE, secretKey, ivp);
 
         byte[] decryptedBytes = cipher.doFinal(cypherText);
-        System.out.println(new String(decryptedBytes));
         return new String(decryptedBytes);
     }
 
@@ -65,7 +65,6 @@ public class StepTwo {
         byte[] iv = new byte[16];
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.nextBytes(iv);
-        System.out.println(hexToStringUtil.hexToString(iv));
         return iv;
     }
 }

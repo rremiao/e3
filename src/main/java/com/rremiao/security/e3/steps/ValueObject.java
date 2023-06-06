@@ -22,6 +22,10 @@ public class ValueObject {
     private byte[] bigS;
 
     private String key;
+
+    private String msgProfessor;
+    
+    private String msgProfessor2;
     
     public ValueObject withPValue(BigInteger pValue) {
         this.pValue = pValue;
@@ -53,4 +57,13 @@ public class ValueObject {
         return this;
     }
 
+    public ValueObject withMsgProfessor(String msgProfessor) {
+        this.msgProfessor = msgProfessor;
+        return this;
+    }
+
+    public ValueObject withMsgProfessor2(String msgProfessor2) {
+        this.msgProfessor2 = msgProfessor2;
+        return this;
+    }
 }

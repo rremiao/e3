@@ -49,6 +49,12 @@ public class StepOne {
             "8B7C7509EFDB92AC7B2964E0BE2CDE875432C19DC1E2B8F865EA41152E7E7B711CA348F165EFA9C9988485F3690A64EF3B1F0AC76" + 
             "B1B261A64A49B73C3DBBCDBE7289B3CD";
 
+        
+        String msgProfessor2 = "C9DF6611269CD91D3EDBC21306CD8817CC8CA5727E431CF85993B675461D054382DB8A8CCF262BC4EB40FDE" + 
+            "CFD1C9C5CD6B99F8CF5C634044601ACB52F98D0D71ACEC530A4A4248CDD68F81F51D16714B0F7DAD0A352EB63D9876D020B25DC463" + 
+            "205CBF2661452FB0FBB292454759A3BE6933B63FCB5721041B15F7EF8D8379F9900CD363B0CB55D75BB68FC756E47743AC677FD914" +
+            "ADA71C2460D79AB166CA6";
+
         BigInteger bigV =  bigB.modPow(littleA, pValue);
 
         byte[] bigS = sha256.hashIt(bigV.toByteArray());
@@ -62,15 +68,19 @@ public class StepOne {
                    .withLittleA(littleA)
                    .withBigA(bigA)
                    .withBigS(bigS)
-                   .withKey(key);
+                   .withKey(key)
+                   .withMsgProfessor(msgProfessor)
+                   .withMsgProfessor2(msgProfessor2);
 
         
         printer(valueObject); 
         
         stepTwo.readMessage(key, msgProfessor);
+        stepTwo.readMessage(key, msgProfessor2);
     }   
     
     public void printer(ValueObject value) {
+        System.out.println();
         System.out.println("P Value: " + value.getPValue());
         System.out.println();
         System.out.println("G Value: " + value.getGValue());
@@ -82,6 +92,7 @@ public class StepOne {
         System.out.println("Hex To String BigA: " + hexUtil.hexToString(value.getBigA().toByteArray()));
         System.out.println();
         System.out.println("Key: " + value.getKey());
+        System.out.println();
     }
 
 }
