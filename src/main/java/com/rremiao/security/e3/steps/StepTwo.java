@@ -18,6 +18,8 @@ public class StepTwo {
     @Autowired
     private HexToStringUtil hexToStringUtil;
     
+
+    //Metodo de Leitura geral
     public void readMessage(String key, String message) {
         try {
             String decryptedMessage = new String(decrypt(message, key).getBytes(), StandardCharsets.UTF_8);
@@ -34,6 +36,7 @@ public class StepTwo {
         
     }
 
+    //Metodo de encriptar texto limpo
     public String encrypt(String plaintext, String key) throws Exception {
         SecretKeySpec secretKey = new SecretKeySpec(hexToStringUtil.hexStringToByteArray(key), "AES");
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -47,6 +50,7 @@ public class StepTwo {
         return hexToStringUtil.hexToString(iv) + hexToStringUtil.hexToString(encryptedBytes);
     }
 
+    //Metodo de decriptar texto cifrado
     public String decrypt(String ciphertext, String key) throws Exception {
         SecretKeySpec secretKey = new SecretKeySpec(hexToStringUtil.hexStringToByteArray(key), "AES");
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -61,6 +65,8 @@ public class StepTwo {
         return new String(decryptedBytes);
     }
 
+
+    //Metodo que gera random IV
     private byte[] randomIv() {
         byte[] iv = new byte[16];
         SecureRandom secureRandom = new SecureRandom();

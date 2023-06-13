@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Sha256 {
 
+    //Metodo de Hash
     public byte[] hashIt(byte[] lastPiece) throws NoSuchAlgorithmException {
         return MessageDigest.getInstance("SHA-256").digest(lastPiece);
     }
