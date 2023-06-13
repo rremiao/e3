@@ -102,9 +102,10 @@ public class StepOne {
                    .withMsgProfessor(msgProfessor)
                    .withMsgProfessor2(msgProfessor2);
 
-        
+        //Metodo de print/debug
         printer(valueObject); 
-        
+
+        //Chamada de execucao para as duas mensagens
         stepTwo.readMessage(key, msgProfessor);
         stepTwo.readMessage(key, msgProfessor2);
     }   
